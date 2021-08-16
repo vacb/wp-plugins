@@ -56,12 +56,12 @@ class WordCountAndTimePlugin {
 
     // Concat on word count if option requires it
     if (get_option('wcp_wordcount', '1')) {
-      $html .= __('This post has', 'wcpdomain') . ' ' . $wordCount . ' '. __('words', 'wcpdomain') . '.<br>';
+      $html .= esc_html__('This post has', 'wcpdomain') . ' ' . $wordCount . ' '. esc_html__('words', 'wcpdomain') . '.<br>';
     }
 
     // Concat on character count if option requires it
     if (get_option('wcp_charcount', '1')) {
-      $html .= __('This post has', 'wcpdomain') . ' ' . strlen(strip_tags($content)) . ' ' . __('characters', 'wcpdomain') . '.<br>';
+      $html .= esc_html__('This post has', 'wcpdomain') . ' ' . strlen(strip_tags($content)) . ' ' . esc_html__('characters', 'wcpdomain') . '.<br>';
     }
 
     // Concat on read time if option requires it
@@ -142,7 +142,7 @@ class WordCountAndTimePlugin {
   // Add a link into the WP settings menu
   function adminPage() {
     // Args: title of page to create/tab title, title used in settings menu, necessary permissions, slug for new page, function to output html content
-    add_options_page('Word Count Settings', __('Word Count', 'wcpdomain'), 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
+    add_options_page('Word Count Settings', esc_html__('Word Count', 'wcpdomain'), 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
   }
   
   function ourHTML() { ?>
