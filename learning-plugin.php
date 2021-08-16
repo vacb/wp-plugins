@@ -6,6 +6,8 @@
   Version: 1.0
   Author: Victoria
   Author URI: https://victoriablackburn.uk
+  Text Domain: wcpdomain
+  Domain Path: /languages
 */
 
 // Test plugin - adds text to the end of a post
@@ -22,6 +24,12 @@ class WordCountAndTimePlugin {
     add_action('admin_menu', array($this, 'adminPage'));
     add_action('admin_init', array($this, 'settings'));
     add_filter('the_content', array($this, 'ifWrap'));
+    add_action('init', array($this, 'languages'));
+  }
+
+  function languages() {
+    // Args: $domain:string, $deprecated:string|false, $plugin_rel_path:string|false
+    load_plugin_textdomain('wcpdomain', false, dirname(plugin_basename(__FILE__)) . '/languages');
   }
 
   function ifWrap($content) {
@@ -48,12 +56,12 @@ class WordCountAndTimePlugin {
 
     // Concat on word count if option requires it
     if (get_option('wcp_wordcount', '1')) {
-      $html .= 'This post has ' . $wordCount . ' words.<br>';
+      $html .= __('This post has', 'wcpdomain') . ' ' . $wordCount . ' '. __('words', 'wcpdomain') . '.<br>';
     }
 
     // Concat on character count if option requires it
     if (get_option('wcp_charcount', '1')) {
-      $html .= 'This post has ' . strlen(strip_tags($content)) . ' characters.<br>';
+      $html .= __('This post has', 'wcpdomain') . ' ' . strlen(strip_tags($content)) . ' ' . __('characters', 'wcpdomain') . '.<br>';
     }
 
     // Concat on read time if option requires it
@@ -134,7 +142,7 @@ class WordCountAndTimePlugin {
   // Add a link into the WP settings menu
   function adminPage() {
     // Args: title of page to create/tab title, title used in settings menu, necessary permissions, slug for new page, function to output html content
-    add_options_page('Word Count Settings', 'Word Count', 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
+    add_options_page('Word Count Settings', __('Word Count', 'wcpdomain'), 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
   }
   
   function ourHTML() { ?>
